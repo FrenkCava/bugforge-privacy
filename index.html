@@ -1,1 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BugForge — Privacy Policy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Variables ── */
+    :root {
+      --bg:        #0d0f1a;
+      --surface:   #13151f;
+      --border:    #1e2130;
+      --accent:    #16a085;
+      --accent2:   #1abc9c;
+      --muted:     #4a5068;
+      --body:      #c8cce0;
+      --heading:   #eef0f8;
+      --tag-bg:    #0e2620;
+      --tag-fg:    #1abc9c;
+      --warn-bg:   #1a1208;
+      --warn-fg:   #f0c442;
+    }
 
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--body);
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      min-height: 100vh;
+    }
+
+    /* ── Noise texture overlay ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      background-size: 200px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Layout ── */
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 60px 28px 100px;
+    }
+
+    /* ── Header ── */
+    header {
+      margin-bottom: 56px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      box-shadow: 0 0 24px rgba(26,188,156,0.25);
+    }
+
+    .logo-name {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--heading);
+      letter-spacing: -0.5px;
+    }
+
+    .logo-version {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 800;
+      color: var(--heading);
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+
+    h1 span {
+      color: var(--accent2);
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--tag-fg);
+      background: var(--tag-bg);
+      border: 1px solid rgba(26,188,156,0.2);
+      padding: 4px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .tag.warn {
+      color: var(--warn-fg);
+      background: var(--warn-bg);
+      border-color: rgba(240,196,66,0.2);
+    }
+
+    /* ── Sections ── */
+    section {
+      margin-bottom: 44px;
+    }
+
+    h2 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent2);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-family: 'IBM Plex Mono', monospace;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h2::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    p {
+      color: var(--body);
+      margin-bottom: 14px;
+      font-size: 15px;
+    }
+
+    p:last-child { margin-bottom: 0; }
+
+    /* ── Data table ── */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin: 4px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .data-table th {
+      background: var(--surface);
+      color: var(--accent2);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .data-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      line-height: 1.5;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .data-table tr:nth-child(even) td {
+      background: rgba(255,255,255,0.015);
+    }
+
+    .data-table td:first-child {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--heading);
+      white-space: nowrap;
+      width: 200px;
+    }
+
+    /* ── Callout box ── */
+    .callout {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin: 16px 0;
+      font-size: 15px;
+    }
+
+    .callout.warn {
+      border-left-color: var(--warn-fg);
+    }
+
+    .callout strong {
+      color: var(--heading);
+    }
+
+    /* ── Inline code ── */
+    code {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 2px 7px;
+      border-radius: 4px;
+      color: var(--accent2);
+    }
+
+    /* ── Contact block ── */
+    .contact-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px 28px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .contact-icon {
+      font-size: 28px;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    .contact-block p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .contact-block a {
+      color: var(--accent2);
+      text-decoration: none;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+    }
+
+    .contact-block a:hover {
+      text-decoration: underline;
+    }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 60px;
+      padding-top: 28px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    footer p {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+
+    <!-- Header -->
+    <header>
+      <div class="logo-row">
+        <div class="logo-icon">🐛</div>
+        <div>
+          <div class="logo-name">BugForge</div>
+          <div class="logo-version">Chrome Extension · v1.1.0</div>
+        </div>
+      </div>
+      <h1>Privacy <span>Policy</span></h1>
+      <div class="meta-row">
+        <span class="tag">Effective: June 2025</span>
+        <span class="tag">Last updated: June 2025</span>
+        <span class="tag warn">Microphone usage declared</span>
+      </div>
+    </header>
+
+    <!-- 1. Overview -->
+    <section>
+      <h2>01 · Overview</h2>
+      <p>
+        BugForge is a Chrome extension developed by <strong>Kaevlar</strong> that enables developers and QA professionals
+        to create structured bug reports and change requests directly from the browser. It captures screenshots,
+        annotates them, and collects contextual page data to produce exportable reports.
+      </p>
+      <p>
+        This Privacy Policy explains what data the extension accesses, how it is used, and what protections are in place.
+        BugForge is designed with a <strong>local-first, zero-telemetry</strong> philosophy: no data is ever transmitted
+        to external servers operated by the developer.
+      </p>
+    </section>
+
+    <!-- 2. Data collected -->
+    <section>
+      <h2>02 · Data Collected</h2>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Data Type</th>
+            <th>Purpose &amp; Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Page URL &amp; title</td>
+            <td>Included in the bug report to identify the page where the issue was observed. Stored only in the local export file.</td>
+          </tr>
+          <tr>
+            <td>Screenshot (visible tab)</td>
+            <td>Captured on explicit user action to document the visual state of the page. Never uploaded or transmitted.</td>
+          </tr>
+          <tr>
+            <td>Console logs</td>
+            <td>Up to 200 recent browser console entries (log, warn, error, info, debug) are collected in-memory to assist debugging. Sensitive query parameters (tokens, API keys, JWTs) are automatically redacted before inclusion in any report.</td>
+          </tr>
+          <tr>
+            <td>Network requests</td>
+            <td>URL path (excluding query strings), HTTP method, status code, and duration. Full URLs are sanitized — only origin + pathname are retained. No request or response bodies are captured.</td>
+          </tr>
+          <tr>
+            <td>User Agent &amp; viewport</td>
+            <td>Browser version and screen dimensions included in the report for reproducibility context.</td>
+          </tr>
+          <tr>
+            <td>Voice / microphone audio</td>
+            <td>Used optionally for speech-to-text dictation into report fields. Audio is processed entirely by the browser's built-in Web Speech API (powered by Google's speech recognition service). No audio is stored by the extension or transmitted to developer servers. See Section 04.</td>
+          </tr>
+          <tr>
+            <td>Extension preferences</td>
+            <td>Minimal session state (active tab ID, window ID) stored via <code>chrome.storage.session</code>. Cleared automatically when the browser session ends.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 3. Data NOT collected -->
+    <section>
+      <h2>03 · Data Not Collected</h2>
+      <div class="callout">
+        <strong>BugForge does not collect, store, or transmit:</strong><br /><br />
+        Personal identifiers (name, email, account data) · Passwords or authentication credentials ·
+        Payment information · Browsing history across sessions · Cookies or local storage of visited pages ·
+        Data from pages the extension is not actively used on · Any data sent to external analytics, 
+        advertising, or tracking services.
+      </div>
+    </section>
+
+    <!-- 4. Microphone / Speech -->
+    <section>
+      <h2>04 · Microphone &amp; Speech Recognition</h2>
+      <p>
+        BugForge includes an optional voice dictation feature that allows users to dictate text into the
+        "Problem" and "Solution" fields of a bug report using the browser's native
+        <code>Web Speech API</code> (<code>SpeechRecognition</code>).
+      </p>
+      <div class="callout warn">
+        <strong>Important:</strong> When voice dictation is used, audio is transmitted by the browser to
+        Google's speech recognition servers for processing. This transmission is handled entirely by Chrome
+        and is subject to <a href="https://policies.google.com/privacy" style="color:var(--warn-fg)">Google's Privacy Policy</a>.
+        BugForge does not receive, store, or have access to the audio stream or the raw transcription data —
+        only the final text result inserted into the report field.
+      </div>
+      <p>
+        Microphone access is requested only when the user explicitly clicks the dictation button.
+        The user may deny microphone permission at any time via Chrome's site settings without affecting
+        any other functionality of the extension.
+      </p>
+    </section>
+
+    <!-- 5. Data sharing -->
+    <section>
+      <h2>05 · Data Sharing &amp; Third Parties</h2>
+      <p>
+        BugForge does not share any data with third parties. The extension operates entirely within the
+        user's browser. All report data (screenshots, logs, form fields) is written to a local file
+        on the user's device via the <code>chrome.downloads</code> API and is never transmitted
+        to any server controlled by the developer.
+      </p>
+      <p>
+        The sole external data transmission that may occur is audio data sent by the browser to Google's
+        speech recognition service, as described in Section 04, and only when the user explicitly
+        activates the dictation feature.
+      </p>
+    </section>
+
+    <!-- 6. Permissions -->
+    <section>
+      <h2>06 · Chrome Permissions Used</h2>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Permission</th>
+            <th>Justification</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>activeTab</code></td>
+            <td>Captures a screenshot of the currently active tab when the user initiates a report. Access is granted only for the specific tab at the moment of user interaction.</td>
+          </tr>
+          <tr>
+            <td><code>scripting</code></td>
+            <td>Injects a content script into the active tab to collect console logs and network activity for inclusion in the bug report, on demand.</td>
+          </tr>
+          <tr>
+            <td><code>downloads</code></td>
+            <td>Saves the completed report (HTML or PNG) to the user's local filesystem via a browser download prompt.</td>
+          </tr>
+          <tr>
+            <td><code>storage</code></td>
+            <td>Stores temporary session state (active tab and window reference) to coordinate between the extension popup and the source page. No persistent personal data is stored.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 7. Data retention -->
+    <section>
+      <h2>07 · Data Retention</h2>
+      <p>
+        BugForge holds data exclusively in-memory during an active reporting session.
+        Session storage (<code>chrome.storage.session</code>) is cleared automatically when
+        the browser session ends. No data persists beyond the user's active session unless
+        explicitly exported to a local file by the user.
+      </p>
+      <p>
+        Exported report files (HTML/PNG) are stored on the user's own device and are fully
+        under the user's control. The developer has no access to these files.
+      </p>
+    </section>
+
+    <!-- 8. Remote code -->
+    <section>
+      <h2>08 · Remote Code Policy</h2>
+      <div class="callout">
+        BugForge does not use any remotely hosted code. All JavaScript, HTML, and CSS assets are
+        bundled within the extension package. No external scripts, CDN resources, or dynamically
+        fetched code are loaded at runtime.
+      </div>
+    </section>
+
+    <!-- 9. Children -->
+    <section>
+      <h2>09 · Children's Privacy</h2>
+      <p>
+        BugForge is a professional developer tool not directed at children under the age of 13.
+        The extension does not knowingly collect any personal information from minors.
+      </p>
+    </section>
+
+    <!-- 10. Changes -->
+    <section>
+      <h2>10 · Changes to This Policy</h2>
+      <p>
+        Any material changes to this Privacy Policy will be reflected by updating the
+        "Last updated" date at the top of this page. Continued use of BugForge after
+        changes are posted constitutes acceptance of the revised policy.
+      </p>
+    </section>
+
+    <!-- 11. Contact -->
+    <section>
+      <h2>11 · Contact</h2>
+      <div class="contact-block">
+        <div class="contact-icon">✉️</div>
+        <div>
+          <p>For questions or concerns regarding this Privacy Policy, please contact:</p>
+          <br />
+          <p><strong style="color:var(--heading)">Kaevlar</strong></p>
+          <p>Developer of BugForge Chrome Extension</p>
+          <p><a href="mailto:fcavaller.a@gmail.com">fcavaller.a@gmail.com</a></p>
+          <br />
+          <p style="font-size:13px;color:var(--muted)">
+            Extension source hosted at
+            <a href="https://github.com/FrenkCava">github.com/FrenkCava</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2025 Kaevlar · BugForge Chrome Extension</p>
+      <p>Policy URL: <a href="https://frenkcava.github.io/bugforge-privacy/">frenkcava.github.io/bugforge-privacy/</a></p>
+    </footer>
+
+  </div>
+</body>
+</html>
