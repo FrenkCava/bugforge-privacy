@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BugForge — Guida Utente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --app-bg0:#0a0b10; --app-bg1:#11131c; --app-bg2:#181b28; --app-bg3:#222640;
+  --app-acc:#16a085; --app-acc2:#1abc9c; --app-glow:rgba(22,160,133,0.22);
+  --app-txt:#e4e4ee; --app-txt2:#9496b0; --app-txt3:#5c5e78;
+  --app-brd:rgba(255,255,255,0.07);
+  --app-ok:#2dd4a8; --app-warn:#f0c442; --app-err:#f06292;
+  --app-bug:#e74c3c; --app-mod:#2980b9;
+  --g-bg:#080910; --g-surf:#0e1018; --g-card:#13151f;
+  --g-brd:rgba(255,255,255,0.06);
+  --g-acc:#16a085; --g-acc2:#1abc9c;
+  --g-txt:#dde0f0; --g-muted:#6a6d8a;
+  --rad:10px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--g-bg);color:var(--g-txt);line-height:1.65;overflow-x:hidden}
+
+#pgbar{position:fixed;top:0;left:0;height:2px;z-index:999;background:linear-gradient(90deg,var(--g-acc),var(--g-acc2));width:0%;transition:width .1s linear}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px 80px;position:relative;background:radial-gradient(ellipse 70% 50% at 50% -5%,rgba(22,160,133,0.18) 0%,transparent 65%)}
+.hero::after{content:'';position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(22,160,133,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(22,160,133,0.03) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,black 30%,transparent 80%)}
+
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--g-card);border:1px solid var(--g-brd);padding:6px 16px;border-radius:99px;font-size:12px;font-weight:500;color:var(--g-muted);margin-bottom:30px;animation:fd .5s ease both}
+.bdot{width:7px;height:7px;border-radius:50%;background:var(--g-acc2);box-shadow:0 0 8px var(--g-acc);animation:blink 2.5s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes fd{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.hero-logo{width:72px;height:72px;background:var(--app-acc);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:34px;box-shadow:0 16px 50px rgba(22,160,133,0.4);margin:0 auto 24px;animation:fu .6s .1s ease both}
+h1{font-family:'JetBrains Mono',monospace;font-size:clamp(2rem,6vw,3.6rem);font-weight:700;line-height:1.1;animation:fu .6s .15s ease both}
+h1 b{color:var(--g-acc2)}
+.hero-sub{font-size:clamp(.95rem,2vw,1.15rem);font-weight:300;color:var(--g-muted);max-width:520px;margin:16px auto 36px;animation:fu .6s .2s ease both}
+.hero-pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:48px;animation:fu .6s .25s ease both}
+.pill{background:var(--g-card);border:1px solid var(--g-brd);padding:5px 13px;border-radius:99px;font-size:12px;font-weight:500;color:var(--g-muted)}
+.pill em{color:var(--g-txt);font-style:normal}
+.scroll-hint{animation:fu .6s .3s ease both;color:var(--g-muted);font-size:12px;display:flex;flex-direction:column;align-items:center;gap:7px}
+.arrow-ring{width:26px;height:26px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:12px;animation:bob 2s infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+
+.wrap{max-width:940px;margin:0 auto;padding:0 24px}
+section{padding:72px 0}
+.s-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g-acc2);display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.s-label::before{content:'';width:16px;height:1.5px;background:var(--g-acc2)}
+h2{font-family:'JetBrains Mono',monospace;font-size:clamp(1.5rem,3.5vw,2.2rem);font-weight:700;line-height:1.15;margin-bottom:10px}
+.s-desc{color:var(--g-muted);max-width:580px;margin-bottom:44px;font-size:.95rem}
+.divider{border:none;border-top:1px solid var(--g-brd);margin:0}
+
+/* INSTALL */
+.install-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;counter-reset:ic}
+.ic{background:var(--g-card);border:1px solid var(--g-brd);border-radius:var(--rad);padding:20px;counter-increment:ic;position:relative}
+.ic::before{content:counter(ic);position:absolute;top:-11px;left:18px;background:var(--g-acc);color:#fff;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.ic-title{font-weight:600;font-size:.9rem;margin-bottom:7px;padding-top:4px}
+.ic-desc{font-size:.82rem;color:white;line-height:1.6}
+
+/* CALLOUTS */
+.callout{border-radius:8px;padding:13px 16px;display:flex;gap:11px;align-items:flex-start;font-size:.85rem;line-height:1.65}
+.callout.tip{background:rgba(45,212,168,0.07);border-left:3px solid var(--app-ok)}
+.callout.warn{background:rgba(240,196,66,0.07);border-left:3px solid var(--app-warn)}
+.callout.info{background:rgba(26,188,156,0.07);border-left:3px solid var(--g-acc2)}
+.callout-icon{font-size:17px;flex-shrink:0}
+.callout-body{color:var(--g-muted)}
+.callout-body strong{color:var(--g-txt)}
+.mt16{margin-top:16px} .mt24{margin-top:24px}
+
+/* STEP TABS */
+.step-nav{display:flex;gap:0;flex-wrap:nowrap;overflow-x:auto;background:var(--g-card);border:1px solid var(--g-brd);border-radius:99px;padding:4px;scrollbar-width:none;margin-bottom:40px}
+.step-nav::-webkit-scrollbar{display:none}
+.stab{flex:none;padding:7px 17px;border-radius:99px;background:none;border:none;color:var(--g-muted);font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
+.stab.on{background:var(--g-acc);color:#fff}
+.stab:hover:not(.on){color:var(--g-txt)}
+.spanel{display:none}
+.spanel.on{display:block;animation:fu .35s ease both}
+
+/* STEP LAYOUT */
+.step-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start}
+@media(max-width:640px){.step-grid{grid-template-columns:1fr}}
+.step-num{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--g-acc2);margin-bottom:8px}
+.step-title{font-family:'JetBrains Mono',monospace;font-size:1.3rem;font-weight:700;margin-bottom:12px}
+.step-desc{color:white;font-size:.9rem;margin-bottom:20px;line-height:1.7}
+.slist{list-style:none;display:flex;flex-direction:column;gap:11px}
+.slist li{display:flex;align-items:flex-start;gap:10px;font-size:.88rem;line-height:1.55}
+.sbullet{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;margin-top:1px}
+.sbullet.n{background:var(--g-acc);color:#fff}
+.sbullet.ok{background:var(--app-ok);color:#0a0b10}
+.sbullet.i{background:var(--app-mod);color:#fff}
+kbd{background:var(--g-card);border:1px solid rgba(255,255,255,0.12);border-radius:4px;padding:1px 7px;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--g-txt)}
+
+/* ══════════════════════════════
+   APP MOCKUP — fedele a app.html
+   ══════════════════════════════ */
+.app-frame{background:var(--app-bg0);border:1px solid var(--g-brd);border-radius:12px;overflow:hidden;font-family:'JetBrains Mono',monospace;box-shadow:0 20px 60px rgba(0,0,0,.6);font-size:11px}
+.af-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--app-bg1);border-bottom:1px solid var(--app-brd)}
+.af-logo{width:28px;height:28px;background:var(--app-acc);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;box-shadow:0 0 14px var(--app-glow)}
+.af-title{font-size:14px;font-weight:700;margin-left:8px}
+.af-title b{color:var(--app-acc2)}
+.af-ver{font-size:9px;padding:2px 8px;background:rgba(22,160,133,0.12);color:var(--app-acc2);border-radius:20px;border:1px solid rgba(22,160,133,0.2)}
+.af-badge{font-size:9px;color:var(--app-txt3);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-left:10px}
+.af-topbar{display:flex;align-items:center;gap:7px;padding:8px 14px;background:var(--app-bg1);border-bottom:1px solid var(--app-brd)}
+.af-btn{padding:6px 12px;border:1px solid var(--app-brd);border-radius:6px;background:var(--app-bg2);color:var(--app-txt);font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;display:flex;align-items:center;gap:5px;white-space:nowrap;cursor:default}
+.af-btn.pri{background:var(--app-acc);border-color:var(--app-acc);color:#fff}
+.af-count{font-size:9px;color:var(--app-txt3);margin-left:auto}
+.af-alert{padding:5px 12px;font-size:9px;font-weight:500;display:flex;align-items:center;gap:5px;border-bottom:1px solid var(--app-brd)}
+.af-alert.ok{background:rgba(45,212,168,0.08);color:var(--app-ok)}
+.af-alert.load{background:rgba(22,160,133,0.08);color:var(--app-acc2)}
+.af-alert.bad{background:rgba(240,98,146,0.08);color:var(--app-err)}
+.af-tabs{display:flex;padding:0 14px;background:var(--app-bg1);border-bottom:1px solid var(--app-brd);min-height:30px;align-items:stretch}
+.af-tab{padding:5px 10px;font-size:9px;font-weight:600;color:var(--app-txt3);border-bottom:2px solid transparent;display:flex;align-items:center;gap:4px;white-space:nowrap}
+.af-tab.act{color:var(--app-acc2);border-bottom-color:var(--app-acc)}
+.af-tab .x{opacity:.4;margin-left:3px}
+.af-canvas{background:var(--app-bg0);display:flex;align-items:center;justify-content:center;padding:12px;min-height:100px;position:relative}
+.af-no-ss{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--app-txt3);font-size:10px}
+.af-no-ss .big{font-size:32px;opacity:.25}
+.af-anno{display:flex;gap:5px;align-items:center;flex-wrap:wrap;padding:7px 14px;background:var(--app-bg1);border-top:1px solid var(--app-brd)}
+.af-anno .lbl{font-size:8px;color:var(--app-txt3);font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.af-tbtn{padding:3px 8px;background:var(--app-bg2);border:1px solid var(--app-brd);border-radius:4px;color:var(--app-txt2);font-size:8px;font-weight:600}
+.af-tbtn.act{background:var(--app-acc);color:#fff;border-color:var(--app-acc)}
+.af-tbtn.dis{opacity:.35}
+.af-clr{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--app-brd)}
+.af-clr.act{border-color:#fff}
+.af-body{display:flex}
+.af-left{flex:1;border-right:1px solid var(--app-brd)}
+.af-right-col{width:190px;overflow-y:auto}
+.af-right{background:var(--app-bg1);padding:12px;display:flex;flex-direction:column;gap:10px}
+.af-fsec{background:var(--app-bg2);border:1px solid var(--app-brd);border-radius:8px;padding:10px}
+.af-fsec h3{font-size:8px;font-weight:700;color:var(--app-txt3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.af-rg{display:flex;gap:6px}
+.af-ropt{flex:1;padding:7px 6px;background:var(--app-bg1);border:2px solid var(--app-brd);border-radius:6px;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:3px}
+.af-ropt.bug-sel{border-color:var(--app-bug);background:rgba(231,76,60,0.1);color:var(--app-bug)}
+.af-ropt.mod-sel{border-color:var(--app-mod);background:rgba(41,128,185,0.1);color:var(--app-mod)}
+.af-ropt.sev-alta{border-color:#e74c3c;background:rgba(231,76,60,0.1);color:#e74c3c}
+.af-ropt.sev-media{border-color:#e67e22;background:rgba(230,126,34,0.1);color:#e67e22}
+.af-ropt.sev-bassa{border-color:#27ae60;background:rgba(39,174,96,0.1);color:#27ae60}
+.af-ropt.unsel{color:var(--app-txt3)}
+.af-field-row{display:flex;align-items:center;gap:7px}
+.af-flbl{font-size:8px;font-weight:600;color:var(--app-txt3);text-transform:uppercase;min-width:18px}
+.af-finput{flex:1;padding:5px 8px;background:var(--app-bg1);border:1px solid var(--app-acc);border-radius:6px;color:var(--app-txt);font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;box-shadow:0 0 0 2px var(--app-glow)}
+.af-ta{width:100%;min-height:40px;padding:7px 8px;background:var(--app-bg1);border:1px solid var(--app-brd);border-radius:6px;color:var(--app-txt2);font-size:9px;line-height:1.5;font-family:'Outfit',sans-serif}
+.af-ta.ab{border-color:var(--app-acc);box-shadow:0 0 0 2px var(--app-glow)}
+.af-mic{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;background:var(--app-bg2);border:1px solid var(--app-brd);border-radius:12px;color:var(--app-txt2);font-size:8px;font-weight:500}
+.af-mic.rec{background:rgba(240,98,146,0.15);border-color:var(--app-err);color:var(--app-err);animation:mpulse 1.5s infinite}
+@keyframes mpulse{0%,100%{box-shadow:0 0 0 0 rgba(240,98,146,.3)}50%{box-shadow:0 0 0 5px rgba(240,98,146,0)}}
+.af-preview{background:var(--app-bg1);border:1px solid var(--app-brd);border-radius:6px;padding:8px 10px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--app-txt2);line-height:1.6;white-space:pre-wrap;min-height:34px}
+.af-pnl{background:var(--app-bg2);border:1px solid var(--app-brd);border-radius:7px;overflow:hidden;margin-bottom:6px}
+.af-pnl:last-child{margin-bottom:0}
+.af-pnl-h{display:flex;align-items:center;justify-content:space-between;padding:6px 10px}
+.af-pnl-t{display:flex;align-items:center;gap:5px;font-size:9px;font-weight:600}
+.af-pnl-c{font-size:7px;padding:1px 5px;background:var(--app-bg0);border-radius:8px;color:var(--app-txt3)}
+.af-pnl-a{color:var(--app-txt3);font-size:9px}
+.af-le{display:flex;gap:5px;padding:3px 10px;font-size:8px;border-bottom:1px solid var(--app-brd);align-items:flex-start}
+.af-le:last-child{border-bottom:none}
+.af-ll{flex-shrink:0;padding:1px 3px;border-radius:2px;font-weight:600;font-size:7px;text-transform:uppercase}
+.af-ll.error{background:rgba(240,98,146,.15);color:var(--app-err)}
+.af-ll.warn{background:rgba(240,196,66,.15);color:var(--app-warn)}
+.af-ll.log{background:rgba(45,212,168,.1);color:var(--app-ok)}
+.af-lm{color:var(--app-txt2)}
+.af-ne{display:grid;grid-template-columns:32px 28px 1fr 36px;gap:4px;padding:3px 10px;font-size:8px;border-bottom:1px solid var(--app-brd);align-items:center}
+.af-ne:last-child{border-bottom:none}
+.af-ns{padding:1px 3px;border-radius:2px;font-weight:600;font-size:7px;text-align:center}
+.af-ns.ok{background:rgba(45,212,168,.15);color:var(--app-ok)}
+.af-ns.er{background:rgba(240,98,146,.15);color:var(--app-err)}
+.af-nm{color:var(--app-acc2);font-weight:600;font-size:7px}
+.af-nu{color:var(--app-txt2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.af-nt{color:var(--app-txt3);text-align:right}
+.af-expbar{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--app-brd)}
+
+/* FEAT GRID */
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.feat-card{background:var(--g-card);border:1px solid var(--g-brd);border-radius:var(--rad);padding:20px;transition:border-color .2s,transform .2s}
+.feat-card:hover{border-color:var(--g-acc);transform:translateY(-2px)}
+.feat-icon{font-size:22px;margin-bottom:10px}
+.feat-title{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.88rem;margin-bottom:5px}
+.feat-desc{font-size:.82rem;color:white;line-height:1.6}
+
+/* FAQ */
+.faq-wrap{border-top:1px solid var(--g-brd)}
+.faq-item{border-bottom:1px solid var(--g-brd)}
+.faq-q{width:100%;text-align:left;background:none;border:none;color:var(--g-txt);padding:16px 0;display:flex;justify-content:space-between;align-items:center;font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:500;cursor:pointer;gap:12px}
+.faq-q:hover{color:var(--g-acc2)}
+.faq-ico{flex-shrink:0;font-size:18px;color:var(--g-muted);transition:transform .25s}
+.faq-item.open .faq-ico{transform:rotate(45deg);color:var(--g-acc2)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s;font-size:.85rem;color:var(--g-muted);line-height:1.7;padding:0}
+.faq-item.open .faq-a{max-height:300px;padding-bottom:16px}
+
+/* TOC */
+.toc{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:100}
+@media(max-width:1080px){.toc{display:none}}
+.toc-wrap{display:flex;flex-direction:column;gap:5px}
+.toc-item{position:relative;display:flex;align-items:center;cursor:pointer}
+.toc-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.12);transition:all .2s}
+.toc-dot.on{background:var(--g-acc2);width:7px;height:7px}
+.toc-tip{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:var(--g-card);border:1px solid var(--g-brd);border-radius:5px;padding:3px 9px;font-size:10px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .2s}
+.toc-item:hover .toc-tip{opacity:1}
+
+footer{border-top:1px solid var(--g-brd);padding:36px 24px;text-align:center;color:var(--g-muted);font-size:.83rem}
+footer strong{color:var(--g-txt)}
+</style>
+</head>
+<body>
+
+<div id="pgbar"></div>
+
+<nav class="toc">
+  <div class="toc-wrap">
+    <div class="toc-item" onclick="goTo('hero')">  <div class="toc-dot on" id="td0"></div><span class="toc-tip">Introduzione</span></div>
+    <div class="toc-item" onclick="goTo('install')"><div class="toc-dot"    id="td1"></div><span class="toc-tip">Installazione</span></div>
+    <div class="toc-item" onclick="goTo('feats')">  <div class="toc-dot"    id="td2"></div><span class="toc-tip">Funzionalità</span></div>
+    <div class="toc-item" onclick="goTo('guide')">  <div class="toc-dot"    id="td3"></div><span class="toc-tip">Come si usa</span></div>
+    <div class="toc-item" onclick="goTo('export')"> <div class="toc-dot"    id="td4"></div><span class="toc-tip">Export</span></div>
+    <div class="toc-item" onclick="goTo('faq')">    <div class="toc-dot"    id="td5"></div><span class="toc-tip">FAQ</span></div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-badge"><span class="bdot"></span>Chrome Extension MV3 · Guida Utente</div>
+  <div class="hero-logo">📋</div>
+  <h1>Bug<b>Forge</b></h1>
+  <p class="hero-sub">La guida completa per segnalare bug e change request in modo strutturato — screenshot, annotazioni, dati tecnici e report HTML pronti all'invio.</p>
+  <div class="hero-pills">
+    <div class="pill">📸 <em>Screenshot multipli</em></div>
+    <div class="pill">✂️ <em>Cattura + Ritaglia</em></div>
+    <div class="pill">✏️ <em>Annotazioni canvas</em></div>
+    <div class="pill">🎤 <em>Dettatura vocale</em></div>
+    <div class="pill">🌐 <em>Console &amp; Network</em></div>
+    <div class="pill">📄 <em>Export HTML / PNG</em></div>
+  </div>
+  <div class="scroll-hint"><span>Inizia a leggere</span><div class="arrow-ring">↓</div></div>
+</section>
+
+<hr class="divider">
+
+<!-- INSTALLAZIONE -->
+<section id="install">
+  <div class="wrap">
+    <div class="s-label">Passo zero</div>
+    <h2>Installazione</h2>
+    <p class="s-desc">BugForge si installa dal Chrome Web Store in pochi secondi, senza configurazione aggiuntiva.</p>
+    <div class="install-grid">
+      <div class="ic"><div class="ic-title">Apri il Chrome Web Store</div><div class="ic-desc">Vai su <strong style="color:var(--g-acc2)">chrome.google.com/webstore</strong> e cerca "BugForge".</div></div>
+      <div class="ic"><div class="ic-title">Aggiungi a Chrome</div><div class="ic-desc">Premi il pulsante blu e conferma i permessi nella finestra di dialogo.</div></div>
+      <div class="ic"><div class="ic-title">Aggiungi alla barra</div><div class="ic-desc">Clicca il puzzle 🧩 in alto a destra → puntina 📌 accanto a BugForge per mantenerlo visibile.</div></div>
+      <div class="ic"><div class="ic-title">Vai sulla pagina da testare</div><div class="ic-desc">Naviga sul sito che vuoi analizzare, poi clicca l'icona <strong>📋</strong> nella barra Chrome.</div></div>
+    </div>
+    <div class="callout info mt24">
+      <span class="callout-icon">ℹ️</span>
+      <div class="callout-body"><strong>Come funziona la finestra:</strong> BugForge si apre in una <strong>finestra separata</strong> affiancata al browser. La finestra originale si riduce alla metà sinistra dello schermo, BugForge occupa la metà destra. Puoi continuare a navigare normalmente sulla pagina sorgente.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- FUNZIONALITÀ -->
+<section id="feats">
+  <div class="wrap">
+    <div class="s-label">Cosa fa</div>
+    <h2>Funzionalità</h2>
+    <p class="s-desc">Tutto in un'unica interfaccia: cattura, annota, classifica ed esporta.</p>
+    <div class="feat-grid">
+      <div class="feat-card"><div class="feat-icon">📸</div><div class="feat-title">Screenshot schermo intero</div><div class="feat-desc">Cattura l'intera finestra sorgente. Ogni cattura diventa una tab separata, navigabile e eliminabile.</div></div>
+      <div class="feat-card"><div class="feat-icon">✂️</div><div class="feat-title">Cattura + Ritaglia</div><div class="feat-desc">Cattura e attiva la modalità crop: trascina per definire l'area da conservare, poi conferma.</div></div>
+      <div class="feat-card"><div class="feat-icon">✏️</div><div class="feat-title">Annotazioni canvas</div><div class="feat-desc">Penna a mano libera, frecce, rettangoli e testo. 5 colori, spessore regolabile, Undo per ogni passo.</div></div>
+      <div class="feat-card"><div class="feat-icon">🏷️</div><div class="feat-title">Classificazione strutturata</div><div class="feat-desc">Tipo BUG o CHANGE REQUEST, ID auto-generato (BUG-01, MOD-01…), Severità Alta/Media/Bassa.</div></div>
+      <div class="feat-card"><div class="feat-icon">🎤</div><div class="feat-title">Dettatura vocale</div><div class="feat-desc">Microfono indipendente per "Problema" e "Soluzione Proposta". Lingua italiana, continua o a segmenti.</div></div>
+      <div class="feat-card"><div class="feat-icon">📋</div><div class="feat-title">Console Logs</div><div class="feat-desc">Raccoglie log, warn, error, exception e unhandledrejection dalla pagina sorgente.</div></div>
+      <div class="feat-card"><div class="feat-icon">🌐</div><div class="feat-title">Network Monitor</div><div class="feat-desc">Intercetta fetch e XHR: metodo, URL (senza parametri sensibili), status code e durata ms.</div></div>
+      <div class="feat-card"><div class="feat-icon">📄</div><div class="feat-title">Export HTML + PNG</div><div class="feat-desc">Report HTML completo con tutti i dati, oppure PNG dello screenshot corrente con annotazioni.</div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- GUIDA PASSO-PASSO -->
+<section id="guide">
+  <div class="wrap">
+    <div class="s-label">Tutorial</div>
+    <h2>Come si usa</h2>
+    <p class="s-desc">Segui questi 6 passi per creare una segnalazione completa.</p>
+
+    <div class="step-nav" role="tablist">
+      <button class="stab on" onclick="tab(0,this)">1 · Apri</button>
+      <button class="stab"    onclick="tab(1,this)">2 · Cattura</button>
+      <button class="stab"    onclick="tab(2,this)">3 · Ritaglia</button>
+      <button class="stab"    onclick="tab(3,this)">4 · Annota</button>
+      <button class="stab"    onclick="tab(4,this)">5 · Compila</button>
+      <button class="stab"    onclick="tab(5,this)">6 · Esporta</button>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="spanel on" id="p0">
+      <div class="step-grid">
+        <div>
+          <div class="step-num">Passo 1 di 6</div>
+          <div class="step-title">Apri BugForge</div>
+          <p class="step-desc">Naviga sulla pagina che presenta il problema e clicca l'icona 📋 nella barra Chrome. BugForge si apre in una finestra separata affiancata.</p>
+          <ul class="slist">
+            <li><span class="sbullet n">1</span><span>Clicca l'icona <strong>📋</strong> nella barra degli strumenti di Chrome</span></li>
+            <li><span class="sbullet n">2</span><span>La finestra originale si sposta a sinistra, BugForge si apre a destra</span></li>
+            <li><span class="sbullet n">3</span><span>In alto vedi il badge con titolo e URL della pagina sorgente</span></li>
+            <li><span class="sbullet ok">✓</span><span>Console logs e chiamate di rete vengono raccolti automaticamente dall'apertura in poi</span></li>
+          </ul>
+          <div class="callout tip mt16">
+            <span class="callout-icon">💡</span>
+            <div class="callout-body"><strong>Finestra già aperta?</strong> Cliccando l'icona di nuovo Chrome porta in primo piano la finestra esistente senza aprirne un'altra.</div>
+          </div>
+        </div>
+        <div>
+          <div class="app-frame">
+            <div class="af-hdr">
+              <div style="display:flex;align-items:center"><div class="af-logo">📋</div><span class="af-title">Bug<b>Forge</b></span><span class="af-badge">&nbsp;— app.example.com › dashboard</span></div>
+              <div class="af-ver">v1.0</div>
+            </div>
+            <div class="af-body">
+              <div class="af-left">
+                <div class="af-topbar">
+                  <div class="af-btn pri">📷 Cattura Schermo</div>
+                  <div class="af-btn">✂️ Cattura + Ritaglia</div>
+                  <span class="af-count">0 screenshot</span>
+                </div>
+                <div class="af-canvas" style="min-height:90px">
+                  <div class="af-no-ss"><div class="big">📷</div><span>Cattura uno screenshot per iniziare</span></div>
+                </div>
+              </div>
+              <div class="af-right-col">
+                <div class="af-right" style="padding:10px;gap:8px">
+                  <div class="af-fsec">
+                    <h3>📌 Tipo Segnalazione</h3>
+                    <div class="af-rg">
+                      <div class="af-ropt bug-sel">🐛 BUG</div>
+                      <div class="af-ropt unsel">🔧 CHANGE REQUEST</div>
+                    </div>
+                  </div>
+                  <div class="af-fsec">
+                    <h3>⚠️ Severità</h3>
+                    <div class="af-rg">
+                      <div class="af-ropt unsel">🔴 ALTA</div>
+                      <div class="af-ropt unsel">🟠 MEDIA</div>
+                      <div class="af-ropt sev-bassa">🟢 BASSA</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="spanel" id="p1">
+      <div class="step-grid">
+        <div>
+          <div class="step-num">Passo 2 di 6</div>
+          <div class="step-title">Cattura lo schermo</div>
+          <p class="step-desc">Usa uno dei due pulsanti nella barra in alto. Puoi catturare quanti screenshot vuoi: ognuno appare come tab separata.</p>
+          <ul class="slist">
+            <li><span class="sbullet n">1</span><span><strong>📷 Cattura Schermo</strong> — cattura l'intera finestra sorgente immediatamente</span></li>
+            <li><span class="sbullet n">2</span><span><strong>✂️ Cattura + Ritaglia</strong> — cattura e attiva subito la modalità ritaglio</span></li>
+            <li><span class="sbullet ok">✓</span><span>Il messaggio verde <em>"Screenshot catturato!"</em> conferma l'operazione</span></li>
+            <li><span class="sbullet ok">✓</span><span>Le tab in cima al canvas mostrano tutti gli screenshot — clicca per navigare tra di essi</span></li>
+            <li><span class="sbullet i">i</span><span>Clicca la <strong>×</strong> su una tab per eliminare quello screenshot</span></li>
+          </ul>
+        </div>
+        <div>
+          <div class="app-frame">
+            <div class="af-hdr">
+              <div style="display:flex;align-items:center"><div class="af-logo">📋</div><span class="af-title">Bug<b>Forge</b></span></div>
+              <div class="af-ver">v1.0</div>
+            </div>
+            <div class="af-alert ok">✅ Screenshot catturato!</div>
+            <div class="af-tabs">
+              <div class="af-tab act">Screenshot 1 <span class="x">×</span></div>
+              <div class="af-tab">Screenshot 2 <span class="x">×</span></div>
+            </div>
+            <div class="af-canvas" style="min-height:90px;padding:8px">
+              <div style="width:100%;background:var(--app-bg2);border-radius:4px;border:1px solid var(--app-brd);height:80px;display:flex;align-items:center;justify-content:center;color:white;font-size:9px;font-family:'JetBrains Mono',monospace">[schermata catturata]</div>
+            </div>
+            <div class="af-anno">
+              <span class="lbl">Tool:</span>
+              <div class="af-tbtn act">✏ Penna</div>
+              <div class="af-tbtn">→ Freccia</div>
+              <div class="af-tbtn">▭ Rect</div>
+              <div class="af-tbtn">T Testo</div>
+              <div style="display:flex;gap:4px;margin-left:6px">
+                <div class="af-clr act" style="background:#f06292"></div>
+                <div class="af-clr" style="background:#2dd4a8"></div>
+                <div class="af-clr" style="background:#f0c442"></div>
+                <div class="af-clr" style="background:#16a085"></div>
+                <div class="af-clr" style="background:#fff"></div>
+              </div>
+              <div style="flex:1"></div>
+              <div class="af-tbtn">↶ Undo</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="spanel" id="p2">
+      <div class="step-grid">
+        <div>
+          <div class="step-num">Passo 3 di 6</div>
+          <div class="step-title">Ritaglia (opzionale)</div>
+          <p class="step-desc">Se hai usato <strong>"Cattura + Ritaglia"</strong>, la modalità crop si attiva automaticamente dopo la cattura.</p>
+          <ul class="slist">
+            <li><span class="sbullet n">1</span><span>Clicca e trascina sul canvas per selezionare l'area da conservare</span></li>
+            <li><span class="sbullet n">2</span><span>L'area selezionata rimane visibile, il resto si scurisce con overlay</span></li>
+            <li><span class="sbullet n">3</span><span>Clicca <strong>✔ Conferma Ritaglio</strong> per applicare il ritaglio</span></li>
+            <li><span class="sbullet n">4</span><span>Oppure <strong>✖ Annulla</strong> per tornare allo screenshot integro</span></li>
+          </ul>
+          <div class="callout warn mt16">
+            <span class="callout-icon">⚠️</span>
+            <div class="callout-body"><strong>Durante il ritaglio</strong> tutti gli strumenti di annotazione sono disabilitati. Applica prima il ritaglio, poi annota.</div>
+          </div>
+        </div>
+        <div>
+          <div class="app-frame">
+            <div class="af-hdr">
+              <div style="display:flex;align-items:center"><div class="af-logo">📋</div><span class="af-title">Bug<b>Forge</b></span></div>
+              <div class="af-ver">v1.0</div>
+            </div>
+            <div class="af-alert load">✂️ Trascina per selezionare, poi Conferma Ritaglio.</div>
+            <div class="af-canvas" style="min-height:100px;padding:8px;position:relative">
+              <div style="width:100%;background:var(--app-bg2);border-radius:4px;height:82px;position:relative;overflow:hidden">
+                <div style="position:absolute;inset:0;background:rgba(0,0,0,.45)"></div>
+                <div style="position:absolute;top:14px;left:18px;width:56%;height:54%;border:2px dashed rgba(255,255,255,.7)"></div>
+                <div style="position:absolute;top:14px;left:18px;width:56%;height:54%;background:rgba(22,160,133,.08)"></div>
+              </div>
+            </div>
+            <div class="af-anno">
+              <span class="lbl">Tool:</span>
+              <div class="af-tbtn dis">✏ Penna</div>
+              <div class="af-tbtn dis">→ Freccia</div>
+              <div class="af-tbtn dis">▭ Rect</div>
+              <div class="af-tbtn dis">T Testo</div>
+              <div style="flex:1"></div>
+              <div class="af-tbtn act">✔ Conferma Ritaglio</div>
+              <div class="af-tbtn" style="margin-left:4px">✖ Annulla</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="spanel" id="p3">
+      <div class="step-grid">
+        <div>
+          <div class="step-num">Passo 4 di 6</div>
+          <div class="step-title">Annota lo screenshot</div>
+          <p class="step-desc">Usa la barra degli strumenti sotto al canvas per evidenziare esattamente dove si trova il problema.</p>
+          <ul class="slist">
+            <li><span class="sbullet n">1</span><span><strong>✏ Penna</strong> — disegno libero a mano, tiene il tratto fluido</span></li>
+            <li><span class="sbullet n">2</span><span><strong>→ Freccia</strong> — disegna una freccia da punto A a punto B</span></li>
+            <li><span class="sbullet n">3</span><span><strong>▭ Rect</strong> — rettangolo di selezione (click e trascina)</span></li>
+            <li><span class="sbullet n">4</span><span><strong>T Testo</strong> — appare un prompt, scrivi il testo e premi OK</span></li>
+            <li><span class="sbullet n">5</span><span>Scegli uno dei 5 colori e regola lo spessore con lo slider <strong>Dim</strong></span></li>
+            <li><span class="sbullet ok">✓</span><span><strong>↶ Undo</strong> rimuove l'ultima annotazione aggiunta</span></li>
+          </ul>
+          <div class="callout tip mt16">
+            <span class="callout-icon">💡</span>
+            <div class="callout-body">Il pattern più leggibile: <strong>rettangolo rosso</strong> attorno all'elemento problematico + <strong>freccia rossa</strong> che lo indica. Chiarissimo in qualsiasi report.</div>
+          </div>
+        </div>
+        <div>
+          <div class="app-frame">
+            <div class="af-hdr">
+              <div style="display:flex;align-items:center"><div class="af-logo">📋</div><span class="af-title">Bug<b>Forge</b></span></div>
+              <div class="af-ver">v1.0</div>
+            </div>
+            <div class="af-tabs"><div class="af-tab act">Screenshot 1 <span class="x">×</span></div></div>
+            <div class="af-canvas" style="min-height:100px;padding:8px">
+              <div style="width:100%;height:82px;background:var(--app-bg2);border-radius:4px;border:1px solid var(--app-brd);position:relative;overflow:hidden">
+                <div style="position:absolute;top:8px;left:8px;right:8px;background:var(--app-bg3);border-radius:3px;height:14px"></div>
+                <div style="position:absolute;top:28px;left:8px;width:58%;background:var(--app-bg3);border-radius:3px;height:10px"></div>
+                <div style="position:absolute;top:26px;right:10px;background:#2a1a1a;border:1.5px solid #f06292;border-radius:4px;padding:3px 8px;font-size:8px;color:#f06292;font-family:'JetBrains Mono',monospace">Salva</div>
+                <svg style="position:absolute;top:0;right:0;pointer-events:none" width="50" height="50" viewBox="0 0 50 50">
+                  <defs><marker id="ah" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5Z" fill="#f06292"/></marker></defs>
+                  <path d="M10,10 L36,32" stroke="#f06292" stroke-width="2" fill="none" marker-end="url(#ah)"/>
+                </svg>
+              </div>
+            </div>
+            <div class="af-anno">
+              <span class="lbl">Tool:</span>
+              <div class="af-tbtn">✏ Penna</div>
+              <div class="af-tbtn">→ Freccia</div>
+              <div class="af-tbtn act">▭ Rect</div>
+              <div class="af-tbtn">T Testo</div>
+              <div style="display:flex;gap:3px;margin-left:6px">
+                <div class="af-clr act" style="background:#f06292"></div>
+                <div class="af-clr" style="background:#2dd4a8"></div>
+                <div class="af-clr" style="background:#f0c442"></div>
+                <div class="af-clr" style="background:#16a085"></div>
+                <div class="af-clr" style="background:#fff"></div>
+              </div>
+              <span class="lbl" style="margin-left:8px">Dim:</span>
+              <div style="width:40px;height:4px;background:var(--app-bg3);border-radius:2px;margin:0 4px;position:relative"><div style="position:absolute;left:0;top:0;width:30%;height:100%;background:var(--app-acc);border-radius:2px"></div></div>
+              <div style="flex:1"></div>
+              <div class="af-tbtn">↶ Undo</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="spanel" id="p4">
+      <div class="step-grid">
+        <div>
+          <div class="step-num">Passo 5 di 6</div>
+          <div class="step-title">Compila il modulo</div>
+          <p class="step-desc">Il pannello di destra raccoglie tutti i dati strutturati della segnalazione. Compila almeno il campo <strong>Problema</strong>.</p>
+          <ul class="slist">
+            <li><span class="sbullet n">1</span><span><strong>Tipo:</strong> BUG 🐛 per malfunzionamenti, CHANGE REQUEST 🔧 per miglioramenti</span></li>
+            <li><span class="sbullet n">2</span><span><strong>ID:</strong> generato automaticamente (BUG-01, MOD-01…) — puoi modificarlo</span></li>
+            <li><span class="sbullet n">3</span><span><strong>Severità:</strong> ALTA 🔴 / MEDIA 🟠 / BASSA 🟢</span></li>
+            <li><span class="sbullet n">4</span><span><strong>Problema / Richiesta:</strong> descrivi il comportamento errato o la feature richiesta</span></li>
+            <li><span class="sbullet n">5</span><span><strong>Soluzione Proposta:</strong> suggerisci come correggere (opzionale)</span></li>
+            <li><span class="sbullet ok">✓</span><span>L'<strong>Anteprima Output</strong> mostra in tempo reale il testo che finirà nel report</span></li>
+          </ul>
+          <div class="callout info mt16">
+            <span class="callout-icon">🎤</span>
+            <div class="callout-body"><strong>Dettatura vocale:</strong> ogni campo ha il proprio pulsante <strong>🎤 Dettatura</strong>. Clicca per iniziare, parla, clicca <strong>Stop</strong> per fermare. Il testo si <em>aggiunge</em> a quello già presente nel campo.</div>
+          </div>
+        </div>
+        <div>
+          <div class="app-frame">
+            <div class="af-hdr">
+              <div style="display:flex;align-items:center"><div class="af-logo">📋</div><span class="af-title">Bug<b>Forge</b></span></div>
+              <div class="af-ver">v1.0</div>
+            </div>
+            <div class="af-right" style="padding:10px;gap:8px">
+              <div class="af-fsec">
+                <h3>📌 Tipo Segnalazione</h3>
+                <div class="af-rg">
+                  <div class="af-ropt bug-sel">🐛 BUG</div>
+                  <div class="af-ropt unsel">🔧 CHANGE REQUEST</div>
+                </div>
+              </div>
+              <div class="af-fsec">
+                <h3>🏷️ Identificativo</h3>
+                <div class="af-field-row"><span class="af-flbl">ID</span><div class="af-finput">BUG-01</div></div>
+              </div>
+              <div class="af-fsec">
+                <h3>⚠️ Severità</h3>
+                <div class="af-rg">
+                  <div class="af-ropt sev-alta">🔴 ALTA</div>
+                  <div class="af-ropt unsel">🟠 MEDIA</div>
+                  <div class="af-ropt unsel">🟢 BASSA</div>
+                </div>
+              </div>
+              <div class="af-fsec">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+                  <h3 style="margin:0">🔍 Problema / Richiesta</h3>
+                  <div class="af-mic">🎤 Dettatura</div>
+                </div>
+                <div class="af-ta ab">Il pulsante "Salva" non risponde al click. Nessun feedback visivo.</div>
+              </div>
+              <div class="af-fsec">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+                  <h3 style="margin:0">💡 Soluzione Proposta</h3>
+                  <div class="af-mic rec">🎤 Stop</div>
+                </div>
+                <div class="af-ta ab" style="color:var(--app-txt)">Verificare il listener sul click dell'elemento #btn-save...</div>
+              </div>
+              <div class="af-fsec">
+                <h3>📄 Anteprima Output</h3>
+                <div class="af-preview">BUG-01 - Tipo: BUG - Severità: ALTA
+PROBLEMA: Il pulsante "Salva" non risponde
+SOLUZIONE: Verificare il listener...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6 -->
+    <div class="spanel" id="p5">
+      <div class="step-grid">
+        <div>
+          <div class="step-num">Passo 6 di 6</div>
+          <div class="step-title">Esporta il report</div>
+          <p class="step-desc">In fondo al pannello destro trovi i due pulsanti di export. Prima di esportare, i dati tecnici (log e network) sono consultabili espandendo le sezioni.</p>
+          <ul class="slist">
+            <li><span class="sbullet n">1</span><span><strong>📄 Salva Report HTML</strong> — genera un report completo; Chrome apre la finestra "Salva con nome"</span></li>
+            <li><span class="sbullet n">2</span><span><strong>📷 PNG</strong> — salva solo lo screenshot attivo (tab selezionata) con le annotazioni</span></li>
+            <li><span class="sbullet ok">✓</span><span>Prima dell'export HTML appare: <em>"Il report può contenere dati sensibili. Continuare?"</em></span></li>
+            <li><span class="sbullet ok">✓</span><span>Il nome file ha il formato: <kbd>bugforge-report-YYYY-MM-DD…html</kbd></span></li>
+          </ul>
+          <div class="callout warn mt16">
+            <span class="callout-icon">⚠️</span>
+            <div class="callout-body"><strong>Almeno uno screenshot obbligatorio:</strong> se il canvas è vuoto, il pulsante HTML mostra un errore e blocca l'export. Cattura prima almeno uno screenshot.</div>
+          </div>
+        </div>
+        <div>
+          <div class="app-frame">
+            <div class="af-hdr">
+              <div style="display:flex;align-items:center"><div class="af-logo">📋</div><span class="af-title">Bug<b>Forge</b></span></div>
+              <div class="af-ver">v1.0</div>
+            </div>
+            <div class="af-right" style="padding:10px;gap:8px">
+              <div class="af-fsec">
+                <h3>📋 Dati Tecnici</h3>
+                <div class="af-pnl">
+                  <div class="af-pnl-h">
+                    <div class="af-pnl-t">Console Logs <span class="af-pnl-c">3</span></div>
+                    <span class="af-pnl-a">▾</span>
+                  </div>
+                  <div class="af-le"><span class="af-ll error">error</span><span class="af-lm">Cannot read properties of undefined (reading 'id')</span></div>
+                  <div class="af-le"><span class="af-ll warn">warn</span><span class="af-lm">Deprecated API: saveSettings()</span></div>
+                  <div class="af-le"><span class="af-ll log">log</span><span class="af-lm">User click: #btn-save</span></div>
+                </div>
+                <div class="af-pnl">
+                  <div class="af-pnl-h">
+                    <div class="af-pnl-t">Network <span class="af-pnl-c">2</span></div>
+                    <span class="af-pnl-a">▾</span>
+                  </div>
+                  <div class="af-ne"><span class="af-ns er">500</span><span class="af-nm">POST</span><span class="af-nu">/api/settings/save</span><span class="af-nt">312ms</span></div>
+                  <div class="af-ne"><span class="af-ns ok">200</span><span class="af-nm">GET</span><span class="af-nu">/api/user/profile</span><span class="af-nt">88ms</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="af-expbar">
+              <div class="af-btn pri" style="flex:1">📄 Salva Report HTML</div>
+              <div class="af-btn">📷 PNG</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- EXPORT -->
+<section id="export">
+  <div class="wrap">
+    <div class="s-label">Output</div>
+    <h2>Il report HTML</h2>
+    <p class="s-desc">Il report HTML è il formato principale: un file autonomo che contiene tutto il necessario per capire e riprodurre il problema.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="background:var(--g-card);border:1px solid var(--g-brd);border-radius:var(--rad);padding:22px">
+        <div style="font-size:22px;margin-bottom:10px">📄</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.9rem;margin-bottom:10px">Contenuto del report HTML</div>
+        <div style="font-size:.82rem;color:var(--g-muted);line-height:1.8;display:flex;flex-direction:column;gap:4px">
+          <div>✓ Titolo pagina e URL sorgente</div>
+          <div>✓ Data/ora, viewport, User Agent</div>
+          <div>✓ Tutti gli screenshot con annotazioni</div>
+          <div>✓ ID, tipo, severità, problema e soluzione</div>
+          <div>✓ Tabella console logs (livello + timestamp)</div>
+          <div>✓ Tabella network requests (status, metodo, URL, durata)</div>
+        </div>
+      </div>
+      <div style="background:var(--g-card);border:1px solid var(--g-brd);border-radius:var(--rad);padding:22px">
+        <div style="font-size:22px;margin-bottom:10px">📷</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.9rem;margin-bottom:10px">Export PNG</div>
+        <div style="font-size:.82rem;color:var(--g-muted);line-height:1.8;display:flex;flex-direction:column;gap:4px">
+          <div>✓ Esporta lo screenshot sulla <strong>tab attiva</strong></div>
+          <div>✓ Include tutte le annotazioni disegnate</div>
+          <div>✓ Ideale per allegare rapidamente a chat/email</div>
+          <div>✓ Nome automatico con timestamp</div>
+        </div>
+      </div>
+    </div>
+    <div class="callout info mt24">
+      <span class="callout-icon">📁</span>
+      <div class="callout-body"><strong>Sicurezza dei dati:</strong> il content script oscura automaticamente token, JWT e API key presenti negli URL di rete (<code>[REDACTED]</code>). I dati non vengono mai inviati a server esterni — tutto rimane nel tuo browser.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="s-label">Domande frequenti</div>
+    <h2>FAQ</h2>
+    <p class="s-desc">Le domande più comuni.</p>
+    <div class="faq-wrap">
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="faq(this)">La finestra BugForge non si apre, o si apre su un altro monitor<span class="faq-ico">+</span></button>
+        <div class="faq-a">Se BugForge era già aperto viene semplicemente portato in primo piano (non si duplica). Se la finestra appare su un monitor sbagliato, trascinala in posizione: Chrome la ricorderà per le sessioni successive. Se non si apre affatto, ricarica la pagina sorgente e riprova.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="faq(this)">Il microfono mostra "permesso negato" o "audio-capture"<span class="faq-ico">+</span></button>
+        <div class="faq-a">Clicca il lucchetto 🔒 nella barra degli indirizzi della finestra BugForge → "Impostazioni sito" → Microfono → "Consenti". Su Windows controlla anche Impostazioni → Privacy → Microfono e assicurati che Chrome abbia il permesso di sistema. BugForge mostra messaggi di errore specifici: "permesso microfono negato" o "microfono non disponibile".</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="faq(this)">Lo screenshot cattura la pagina sbagliata<span class="faq-ico">+</span></button>
+        <div class="faq-a">BugForge cattura sempre la <strong>finestra sorgente</strong> — quella che era attiva quando hai cliccato l'icona per la prima volta. Se hai cambiato tab o aperto nuove finestre nel frattempo, la sorgente rimane quella originale. Per cambiare pagina sorgente chiudi BugForge, vai sulla nuova pagina e riaprilo da lì.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="faq(this)">I log Console e Network sono vuoti<span class="faq-ico">+</span></button>
+        <div class="faq-a">Il collector viene iniettato nella pagina <em>al momento dell'apertura</em> di BugForge. I log prodotti prima non sono recuperabili. Per catturare tutto, apri BugForge <strong>prima</strong> di eseguire le azioni da monitorare, oppure ricarica la pagina dopo aver aperto BugForge (il collector si reinietta automaticamente alla cattura successiva).</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="faq(this)">BugForge non funziona su alcune pagine Chrome<span class="faq-ico">+</span></button>
+        <div class="faq-a">Le pagine di sistema (chrome://settings, chrome://extensions, chrome://newtab, Chrome Web Store) non permettono l'esecuzione di estensioni per motivi di sicurezza del browser. Su qualsiasi altro sito web BugForge funziona normalmente.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="faq(this)">I miei dati vengono inviati a qualcuno?<span class="faq-ico">+</span></button>
+        <div class="faq-a">No. BugForge non ha backend e non trasmette nulla. Screenshot, log, annotazioni e dati di sistema rimangono nel browser. L'unica eccezione è la dettatura vocale, che usa l'API Web Speech di Chrome (elaborazione Google). Token e credenziali negli URL di rete vengono oscurati automaticamente con <code>[REDACTED]</code>.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="faq(this)">Come faccio più segnalazioni in una sessione?<span class="faq-ico">+</span></button>
+        <div class="faq-a">BugForge gestisce una segnalazione strutturata per volta (i campi form sono unici). Per più segnalazioni il flusso consigliato è: esporta il report HTML della prima → svuota i campi testo → cattura nuovi screenshot per la seconda. In alternativa puoi aprire più istanze di BugForge da tab diverse del browser.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div style="font-size:26px;margin-bottom:8px">📋</div>
+  <strong>BugForge</strong> · Guida Utente Ufficiale<br>
+  <span style="color:var(--g-muted);font-size:.78rem;margin-top:5px;display:block">Versione 1.1.0 · Chrome Extension Manifest V3</span>
+</footer>
+
+<script>
+function tab(i,btn){
+  document.querySelectorAll('.spanel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.stab').forEach(b=>b.classList.remove('on'));
+  document.getElementById('p'+i).classList.add('on');
+  btn.classList.add('on');
+}
+function faq(btn){
+  const item=btn.closest('.faq-item');
+  const open=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+  if(!open)item.classList.add('open');
+}
+function goTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+const secs=['hero','install','feats','guide','export','faq'];
+window.addEventListener('scroll',()=>{
+  const p=window.scrollY/(document.body.scrollHeight-innerHeight);
+  document.getElementById('pgbar').style.width=(p*100)+'%';
+  secs.forEach((id,i)=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    const t=el.getBoundingClientRect().top;
+    const dot=document.getElementById('td'+i);
+    if(dot)dot.classList.toggle('on',t<=innerHeight*.5&&t>-innerHeight*.5);
+  });
+});
+</script>
+</body>
+</html>
