@@ -22,14 +22,34 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:'Outfit',sans-serif;background:var(--g-bg);color:var(--g-txt);line-height:1.65;overflow-x:hidden}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--g-bg);
+  color:#ffffff;
+  line-height:1.75;
+  overflow-x:hidden;
+  font-size:17px
+}
 
 #pgbar{position:fixed;top:0;left:0;height:2px;z-index:999;background:linear-gradient(90deg,var(--g-acc),var(--g-acc2));width:0%;transition:width .1s linear}
 
 .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px 80px;position:relative;background:radial-gradient(ellipse 70% 50% at 50% -5%,rgba(22,160,133,0.18) 0%,transparent 65%)}
 .hero::after{content:'';position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(22,160,133,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(22,160,133,0.03) 1px,transparent 1px);background-size:40px 40px;mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,black 30%,transparent 80%)}
 
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--g-card);border:1px solid var(--g-brd);padding:6px 16px;border-radius:99px;font-size:12px;font-weight:500;color:var(--g-muted);margin-bottom:30px;animation:fd .5s ease both}
+.hero-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:var(--g-card);
+  border:1px solid var(--g-brd);
+  padding:7px 16px;
+  border-radius:99px;
+  font-size:13px;
+  font-weight:500;
+  color:#ffffff;
+  margin-bottom:30px;
+  animation:fd .5s ease both
+}
 .bdot{width:7px;height:7px;border-radius:50%;background:var(--g-acc2);box-shadow:0 0 8px var(--g-acc);animation:blink 2.5s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
 @keyframes fd{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
@@ -38,11 +58,37 @@ body{font-family:'Outfit',sans-serif;background:var(--g-bg);color:var(--g-txt);l
 .hero-logo{width:72px;height:72px;background:var(--app-acc);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:34px;box-shadow:0 16px 50px rgba(22,160,133,0.4);margin:0 auto 24px;animation:fu .6s .1s ease both}
 h1{font-family:'JetBrains Mono',monospace;font-size:clamp(2rem,6vw,3.6rem);font-weight:700;line-height:1.1;animation:fu .6s .15s ease both}
 h1 b{color:var(--g-acc2)}
-.hero-sub{font-size:clamp(.95rem,2vw,1.15rem);font-weight:300;color:var(--g-muted);max-width:520px;margin:16px auto 36px;animation:fu .6s .2s ease both}
+.hero-sub{
+  font-size:clamp(1.05rem,2.2vw,1.28rem);
+  font-weight:400;
+  color:#ffffff;
+  max-width:620px;
+  margin:16px auto 36px;
+  animation:fu .6s .2s ease both
+}
 .hero-pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:48px;animation:fu .6s .25s ease both}
-.pill{background:var(--g-card);border:1px solid var(--g-brd);padding:5px 13px;border-radius:99px;font-size:12px;font-weight:500;color:var(--g-muted)}
-.pill em{color:var(--g-txt);font-style:normal}
-.scroll-hint{animation:fu .6s .3s ease both;color:var(--g-muted);font-size:12px;display:flex;flex-direction:column;align-items:center;gap:7px}
+.pill{
+  background:var(--g-card);
+  border:1px solid var(--g-brd);
+  padding:6px 14px;
+  border-radius:99px;
+  font-size:13px;
+  font-weight:500;
+  color:#ffffff
+}
+.pill em{color:#ffffff;font-style:normal}
+.scroll-hint{
+  animation:fu .6s .3s ease both;
+  color:#ffffff;
+  font-size:13px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:7px;
+  cursor:pointer;
+  user-select:none
+}
+.scroll-hint:hover{color:var(--g-acc2)}
 .arrow-ring{width:26px;height:26px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:12px;animation:bob 2s infinite}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
 
@@ -51,30 +97,48 @@ section{padding:72px 0}
 .s-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g-acc2);display:flex;align-items:center;gap:8px;margin-bottom:14px}
 .s-label::before{content:'';width:16px;height:1.5px;background:var(--g-acc2)}
 h2{font-family:'JetBrains Mono',monospace;font-size:clamp(1.5rem,3.5vw,2.2rem);font-weight:700;line-height:1.15;margin-bottom:10px}
-.s-desc{color:var(--g-muted);max-width:580px;margin-bottom:44px;font-size:.95rem}
+.s-desc{
+  color:#ffffff;
+  max-width:680px;
+  margin-bottom:44px;
+  font-size:1.02rem;
+  line-height:1.75
+}
 .divider{border:none;border-top:1px solid var(--g-brd);margin:0}
 
 /* INSTALL */
 .install-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;counter-reset:ic}
 .ic{background:var(--g-card);border:1px solid var(--g-brd);border-radius:var(--rad);padding:20px;counter-increment:ic;position:relative}
 .ic::before{content:counter(ic);position:absolute;top:-11px;left:18px;background:var(--g-acc);color:#fff;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.ic-title{font-weight:600;font-size:.9rem;margin-bottom:7px;padding-top:4px}
-.ic-desc{font-size:.82rem;color:white;line-height:1.6}
+.ic-title{font-weight:600;font-size:.95rem;margin-bottom:7px;padding-top:4px}
+.ic-desc{
+  font-size:.95rem;
+  color:#ffffff;
+  line-height:1.75
+}
 
 /* CALLOUTS */
-.callout{border-radius:8px;padding:13px 16px;display:flex;gap:11px;align-items:flex-start;font-size:.85rem;line-height:1.65}
+.callout{
+  border-radius:8px;
+  padding:13px 16px;
+  display:flex;
+  gap:11px;
+  align-items:flex-start;
+  font-size:.95rem;
+  line-height:1.75
+}
 .callout.tip{background:rgba(45,212,168,0.07);border-left:3px solid var(--app-ok)}
 .callout.warn{background:rgba(240,196,66,0.07);border-left:3px solid var(--app-warn)}
 .callout.info{background:rgba(26,188,156,0.07);border-left:3px solid var(--g-acc2)}
 .callout-icon{font-size:17px;flex-shrink:0}
-.callout-body{color:var(--g-muted)}
-.callout-body strong{color:var(--g-txt)}
+.callout-body{color:#ffffff}
+.callout-body strong{color:#ffffff}
 .mt16{margin-top:16px} .mt24{margin-top:24px}
 
 /* STEP TABS */
 .step-nav{display:flex;gap:0;flex-wrap:nowrap;overflow-x:auto;background:var(--g-card);border:1px solid var(--g-brd);border-radius:99px;padding:4px;scrollbar-width:none;margin-bottom:40px}
 .step-nav::-webkit-scrollbar{display:none}
-.stab{flex:none;padding:7px 17px;border-radius:99px;background:none;border:none;color:var(--g-muted);font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
+.stab{flex:none;padding:7px 17px;border-radius:99px;background:none;border:none;color:#ffffff;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
 .stab.on{background:var(--g-acc);color:#fff}
 .stab:hover:not(.on){color:var(--g-txt)}
 .spanel{display:none}
@@ -85,14 +149,30 @@ h2{font-family:'JetBrains Mono',monospace;font-size:clamp(1.5rem,3.5vw,2.2rem);f
 @media(max-width:640px){.step-grid{grid-template-columns:1fr}}
 .step-num{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--g-acc2);margin-bottom:8px}
 .step-title{font-family:'JetBrains Mono',monospace;font-size:1.3rem;font-weight:700;margin-bottom:12px}
-.step-desc{color:white;font-size:.9rem;margin-bottom:20px;line-height:1.7}
+.step-desc{
+  color:#ffffff;
+  font-size:1rem;
+  margin-bottom:20px;
+  line-height:1.8
+}
 .slist{list-style:none;display:flex;flex-direction:column;gap:11px}
-.slist li{display:flex;align-items:flex-start;gap:10px;font-size:.88rem;line-height:1.55}
+.slist li{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  font-size:.96rem;
+  line-height:1.7
+}
 .sbullet{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;margin-top:1px}
 .sbullet.n{background:var(--g-acc);color:#fff}
 .sbullet.ok{background:var(--app-ok);color:#0a0b10}
 .sbullet.i{background:var(--app-mod);color:#fff}
 kbd{background:var(--g-card);border:1px solid rgba(255,255,255,0.12);border-radius:4px;padding:1px 7px;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--g-txt)}
+
+.experimental{
+  color:var(--app-warn);
+  font-weight:700;
+}
 
 /* ══════════════════════════════
    APP MOCKUP — fedele a app.html
@@ -177,17 +257,44 @@ kbd{background:var(--g-card);border:1px solid rgba(255,255,255,0.12);border-radi
 .feat-card{background:var(--g-card);border:1px solid var(--g-brd);border-radius:var(--rad);padding:20px;transition:border-color .2s,transform .2s}
 .feat-card:hover{border-color:var(--g-acc);transform:translateY(-2px)}
 .feat-icon{font-size:22px;margin-bottom:10px}
-.feat-title{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.88rem;margin-bottom:5px}
-.feat-desc{font-size:.82rem;color:white;line-height:1.6}
+.feat-title{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.88rem;margin-bottom:5px;color:#ffffff}
+.feat-desc{
+  font-size:.93rem;
+  color:#ffffff;
+  line-height:1.75
+}
 
 /* FAQ */
 .faq-wrap{border-top:1px solid var(--g-brd)}
 .faq-item{border-bottom:1px solid var(--g-brd)}
-.faq-q{width:100%;text-align:left;background:none;border:none;color:var(--g-txt);padding:16px 0;display:flex;justify-content:space-between;align-items:center;font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:500;cursor:pointer;gap:12px}
+.faq-q{
+  width:100%;
+  text-align:left;
+  background:none;
+  border:none;
+  color:#ffffff;
+  padding:16px 0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-family:'Outfit',sans-serif;
+  font-size:1rem;
+  font-weight:500;
+  cursor:pointer;
+  gap:12px
+}
 .faq-q:hover{color:var(--g-acc2)}
 .faq-ico{flex-shrink:0;font-size:18px;color:var(--g-muted);transition:transform .25s}
 .faq-item.open .faq-ico{transform:rotate(45deg);color:var(--g-acc2)}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s;font-size:.85rem;color:var(--g-muted);line-height:1.7;padding:0}
+.faq-a{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .3s ease,padding .3s;
+  font-size:.95rem;
+  color:#ffffff;
+  line-height:1.8;
+  padding:0
+}
 .faq-item.open .faq-a{max-height:300px;padding-bottom:16px}
 
 /* TOC */
@@ -200,8 +307,8 @@ kbd{background:var(--g-card);border:1px solid rgba(255,255,255,0.12);border-radi
 .toc-tip{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:var(--g-card);border:1px solid var(--g-brd);border-radius:5px;padding:3px 9px;font-size:10px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .2s}
 .toc-item:hover .toc-tip{opacity:1}
 
-footer{border-top:1px solid var(--g-brd);padding:36px 24px;text-align:center;color:var(--g-muted);font-size:.83rem}
-footer strong{color:var(--g-txt)}
+footer{border-top:1px solid var(--g-brd);padding:36px 24px;text-align:center;color:#ffffff;font-size:.83rem}
+footer strong{color:#ffffff}
 </style>
 </head>
 <body>
@@ -221,19 +328,22 @@ footer strong{color:var(--g-txt)}
 
 <!-- HERO -->
 <section class="hero" id="hero">
-  <div class="hero-badge"><span class="bdot"></span>Chrome Extension MV3 · Guida Utente</div>
-  <div class="hero-logo">📋</div>
+  <div class="hero-badge"><span class="bdot"></span>Chrome Extension MV3 · Guida Utente Interna</div>
+  <div class="hero-logo"> <img src="icons/icon48.png" /> </div>
   <h1>Bug<b>Forge</b></h1>
   <p class="hero-sub">La guida completa per segnalare bug e change request in modo strutturato — screenshot, annotazioni, dati tecnici e report HTML pronti all'invio.</p>
   <div class="hero-pills">
     <div class="pill">📸 <em>Screenshot multipli</em></div>
     <div class="pill">✂️ <em>Cattura + Ritaglia</em></div>
     <div class="pill">✏️ <em>Annotazioni canvas</em></div>
-    <div class="pill">🎤 <em>Dettatura vocale</em></div>
+    <div class="pill">🎤 <em>Dettatura vocale (sperimentale)</em></div>
     <div class="pill">🌐 <em>Console &amp; Network</em></div>
     <div class="pill">📄 <em>Export HTML / PNG</em></div>
   </div>
-  <div class="scroll-hint"><span>Inizia a leggere</span><div class="arrow-ring">↓</div></div>
+  <div class="scroll-hint" onclick="goTo('install')" role="button" tabindex="0" aria-label="Vai alla sezione Installazione" onkeydown="if(event.key==='Enter' || event.key===' '){goTo('install')}">
+    <span>Inizia a leggere</span>
+    <div class="arrow-ring">↓</div>
+  </div>
 </section>
 
 <hr class="divider">
@@ -243,12 +353,13 @@ footer strong{color:var(--g-txt)}
   <div class="wrap">
     <div class="s-label">Passo zero</div>
     <h2>Installazione</h2>
-    <p class="s-desc">BugForge si installa dal Chrome Web Store in pochi secondi, senza configurazione aggiuntiva.</p>
+    <p class="s-desc">BugForge al momento non è pubblicata sul Chrome Web Store: l'installazione avviene tramite link diretto ricevuto dal team o dal referente che ti ha fornito l'estensione.</p>
     <div class="install-grid">
-      <div class="ic"><div class="ic-title">Apri il Chrome Web Store</div><div class="ic-desc">Vai su <strong style="color:var(--g-acc2)">chrome.google.com/webstore</strong> e cerca "BugForge".</div></div>
-      <div class="ic"><div class="ic-title">Aggiungi a Chrome</div><div class="ic-desc">Premi il pulsante blu e conferma i permessi nella finestra di dialogo.</div></div>
-      <div class="ic"><div class="ic-title">Aggiungi alla barra</div><div class="ic-desc">Clicca il puzzle 🧩 in alto a destra → puntina 📌 accanto a BugForge per mantenerlo visibile.</div></div>
-      <div class="ic"><div class="ic-title">Vai sulla pagina da testare</div><div class="ic-desc">Naviga sul sito che vuoi analizzare, poi clicca l'icona <strong>📋</strong> nella barra Chrome.</div></div>
+      <div class="ic"><div class="ic-title">Apri il link ricevuto</div><div class="ic-desc">Apri il link diretto che ti è stato fornito per installare BugForge.</div></div>
+      <div class="ic"><div class="ic-title">Aggiungi l'estensione a Chrome</div><div class="ic-desc">Segui la pagina di installazione e conferma l'aggiunta dell'estensione quando Chrome lo richiede.</div></div>
+      <div class="ic"><div class="ic-title">Aggiungi BugForge alla barra</div><div class="ic-desc">Clicca il puzzle 🧩 in alto a destra, poi la puntina 📌 accanto a BugForge per mantenerlo sempre visibile.</div></div>
+      <div class="ic"><div class="ic-title">Vai sulla pagina da testare</div><div class="ic-desc">Apri il sito o la pagina che vuoi analizzare, poi clicca l'icona <img src="icons/icon16.png"  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+  <span style="display:none">🐞</span> nella barra di Chrome.</div></div>
     </div>
     <div class="callout info mt24">
       <span class="callout-icon">ℹ️</span>
@@ -270,7 +381,7 @@ footer strong{color:var(--g-txt)}
       <div class="feat-card"><div class="feat-icon">✂️</div><div class="feat-title">Cattura + Ritaglia</div><div class="feat-desc">Cattura e attiva la modalità crop: trascina per definire l'area da conservare, poi conferma.</div></div>
       <div class="feat-card"><div class="feat-icon">✏️</div><div class="feat-title">Annotazioni canvas</div><div class="feat-desc">Penna a mano libera, frecce, rettangoli e testo. 5 colori, spessore regolabile, Undo per ogni passo.</div></div>
       <div class="feat-card"><div class="feat-icon">🏷️</div><div class="feat-title">Classificazione strutturata</div><div class="feat-desc">Tipo BUG o CHANGE REQUEST, ID auto-generato (BUG-01, MOD-01…), Severità Alta/Media/Bassa.</div></div>
-      <div class="feat-card"><div class="feat-icon">🎤</div><div class="feat-title">Dettatura vocale</div><div class="feat-desc">Microfono indipendente per "Problema" e "Soluzione Proposta". Lingua italiana, continua o a segmenti.</div></div>
+      <div class="feat-card"><div class="feat-icon">🎤</div><div class="feat-title">Dettatura vocale <span class="experimental">(sperimentale)</span></div><div class="feat-desc">Funzione sperimentale con microfono indipendente per "Problema" e "Soluzione Proposta". Il comportamento può variare in base a permessi, browser e disponibilità del riconoscimento vocale.</div></div>
       <div class="feat-card"><div class="feat-icon">📋</div><div class="feat-title">Console Logs</div><div class="feat-desc">Raccoglie log, warn, error, exception e unhandledrejection dalla pagina sorgente.</div></div>
       <div class="feat-card"><div class="feat-icon">🌐</div><div class="feat-title">Network Monitor</div><div class="feat-desc">Intercetta fetch e XHR: metodo, URL (senza parametri sensibili), status code e durata ms.</div></div>
       <div class="feat-card"><div class="feat-icon">📄</div><div class="feat-title">Export HTML + PNG</div><div class="feat-desc">Report HTML completo con tutti i dati, oppure PNG dello screenshot corrente con annotazioni.</div></div>
@@ -302,9 +413,9 @@ footer strong{color:var(--g-txt)}
         <div>
           <div class="step-num">Passo 1 di 6</div>
           <div class="step-title">Apri BugForge</div>
-          <p class="step-desc">Naviga sulla pagina che presenta il problema e clicca l'icona 📋 nella barra Chrome. BugForge si apre in una finestra separata affiancata.</p>
+          <p class="step-desc">Naviga sulla pagina che presenta il problema e clicca l'icona  <img src="icons/icon16.png"/>  nella barra Chrome. BugForge si apre in una finestra separata affiancata.</p>
           <ul class="slist">
-            <li><span class="sbullet n">1</span><span>Clicca l'icona <strong>📋</strong> nella barra degli strumenti di Chrome</span></li>
+            <li><span class="sbullet n">1</span><span>Clicca l'icona <img src="icons/icon16.png"/> nella barra degli strumenti di Chrome</span></li>
             <li><span class="sbullet n">2</span><span>La finestra originale si sposta a sinistra, BugForge si apre a destra</span></li>
             <li><span class="sbullet n">3</span><span>In alto vedi il badge con titolo e URL della pagina sorgente</span></li>
             <li><span class="sbullet ok">✓</span><span>Console logs e chiamate di rete vengono raccolti automaticamente dall'apertura in poi</span></li>
@@ -529,9 +640,9 @@ footer strong{color:var(--g-txt)}
             <li><span class="sbullet n">5</span><span><strong>Soluzione Proposta:</strong> suggerisci come correggere (opzionale)</span></li>
             <li><span class="sbullet ok">✓</span><span>L'<strong>Anteprima Output</strong> mostra in tempo reale il testo che finirà nel report</span></li>
           </ul>
-          <div class="callout info mt16">
-            <span class="callout-icon">🎤</span>
-            <div class="callout-body"><strong>Dettatura vocale:</strong> ogni campo ha il proprio pulsante <strong>🎤 Dettatura</strong>. Clicca per iniziare, parla, clicca <strong>Stop</strong> per fermare. Il testo si <em>aggiunge</em> a quello già presente nel campo.</div>
+          <div class="callout warn mt16">
+            <span class="callout-icon">🧪</span>
+            <div class="callout-body"><strong>Dettatura vocale (sperimentale):</strong> ogni campo ha il proprio pulsante <strong>🎤 Dettatura</strong>. Clicca per iniziare, parla, clicca <strong>Stop</strong> per fermare. Il testo si <em>aggiunge</em> a quello già presente nel campo. La funzione può dipendere da permessi microfono, configurazione di Chrome e disponibilità dell'API vocale.</div>
           </div>
         </div>
         <div>
@@ -655,8 +766,8 @@ SOLUZIONE: Verificare il listener...</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
       <div style="background:var(--g-card);border:1px solid var(--g-brd);border-radius:var(--rad);padding:22px">
         <div style="font-size:22px;margin-bottom:10px">📄</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.9rem;margin-bottom:10px">Contenuto del report HTML</div>
-        <div style="font-size:.82rem;color:var(--g-muted);line-height:1.8;display:flex;flex-direction:column;gap:4px">
+        <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.9rem;margin-bottom:10px;color:#ffffff">Contenuto del report HTML</div>
+        <div style="font-size:.88rem;color:#ffffff;line-height:1.8;display:flex;flex-direction:column;gap:4px">
           <div>✓ Titolo pagina e URL sorgente</div>
           <div>✓ Data/ora, viewport, User Agent</div>
           <div>✓ Tutti gli screenshot con annotazioni</div>
@@ -667,8 +778,8 @@ SOLUZIONE: Verificare il listener...</div>
       </div>
       <div style="background:var(--g-card);border:1px solid var(--g-brd);border-radius:var(--rad);padding:22px">
         <div style="font-size:22px;margin-bottom:10px">📷</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.9rem;margin-bottom:10px">Export PNG</div>
-        <div style="font-size:.82rem;color:var(--g-muted);line-height:1.8;display:flex;flex-direction:column;gap:4px">
+        <div style="font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.9rem;margin-bottom:10px;color:#ffffff">Export PNG</div>
+        <div style="font-size:.88rem;color:#ffffff;line-height:1.8;display:flex;flex-direction:column;gap:4px">
           <div>✓ Esporta lo screenshot sulla <strong>tab attiva</strong></div>
           <div>✓ Include tutte le annotazioni disegnate</div>
           <div>✓ Ideale per allegare rapidamente a chat/email</div>
@@ -720,7 +831,7 @@ SOLUZIONE: Verificare il listener...</div>
 
       <div class="faq-item">
         <button class="faq-q" onclick="faq(this)">I miei dati vengono inviati a qualcuno?<span class="faq-ico">+</span></button>
-        <div class="faq-a">No. BugForge non ha backend e non trasmette nulla. Screenshot, log, annotazioni e dati di sistema rimangono nel browser. L'unica eccezione è la dettatura vocale, che usa l'API Web Speech di Chrome (elaborazione Google). Token e credenziali negli URL di rete vengono oscurati automaticamente con <code>[REDACTED]</code>.</div>
+        <div class="faq-a">No. BugForge non ha backend e non trasmette nulla. Screenshot, log, annotazioni e dati di sistema rimangono nel browser. <strong>Eccezione:</strong> la funzione di <strong>dettatura vocale è sperimentale</strong> e usa l'API Web Speech di Chrome, che può comportare elaborazione tramite i servizi vocali del browser. Token e credenziali negli URL di rete vengono oscurati automaticamente con <code>[REDACTED]</code>.</div>
       </div>
 
       <div class="faq-item">
@@ -735,7 +846,7 @@ SOLUZIONE: Verificare il listener...</div>
 <footer>
   <div style="font-size:26px;margin-bottom:8px">📋</div>
   <strong>BugForge</strong> · Guida Utente Ufficiale<br>
-  <span style="color:var(--g-muted);font-size:.78rem;margin-top:5px;display:block">Versione 1.1.0 · Chrome Extension Manifest V3</span>
+  <span style="color:#ffffff;font-size:.78rem;margin-top:5px;display:block">Versione 1.1.0 · Chrome Extension Manifest V3</span>
 </footer>
 
 <script>
